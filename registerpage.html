@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng ký — Mọt Sách</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav scrolled" id="mainNav">
+  <a href="index.html" class="brand">
+    <svg class="mark" viewBox="0 0 30 30" fill="none">
+      <path d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z" fill="#C9A24B"/>
+      <path d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z" fill="#E4C879"/>
+    </svg>
+    Mọt Sách
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Trang chủ</a>
+    <a href="index.html#shelf">Thể loại</a>
+    <a href="index.html#books">Kho sách</a>
+    <a href="index.html#stats">Thư viện</a>
+  </div>
+  <div class="nav-actions">
+    <a href="login.html" class="btn btn-ghost">Đã có tài khoản?</a>
+    <a href="login.html" class="btn btn-gold">Đăng nhập</a>
+  </div>
+</nav>
+
+<div class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-side">
+      <a href="index.html" class="back-link">← Quay lại trang chủ</a>
+      <div>
+        <div class="leaf-deco l1"></div>
+        <div class="leaf-deco l2"></div>
+        <div class="quote-mark">“</div>
+        <p class="auth-quote">Mỗi trang sách là một cánh cửa mở ra thế giới khác — chỉ cần bạn đăng nhập để bước qua.</p>
+        <div class="auth-quote-by">— Mọt Sách</div>
+      </div>
+      <div style="font-family:var(--font-mono); font-size:12px; color:var(--muted-2); letter-spacing:.06em;">12,400+ đầu sách đang chờ bạn</div>
+    </div>
+
+    <div class="auth-main">
+      <div class="tabs">
+        <a href="login.html" class="tab-btn">Đăng nhập</a>
+        <a href="register.html" class="tab-btn active">Đăng ký</a>
+        <div class="tab-indicator" style="width:66px; transform:translateX(110px);"></div>
+      </div>
+
+      <div class="form-panel active">
+        <div class="auth-title">Tạo tài khoản mới</div>
+        <div class="auth-sub">Chỉ một phút để có kệ sách của riêng bạn.</div>
+        <form onsubmit="return false;">
+          <div class="field">
+            <label for="rg-name">Họ và tên</label>
+            <input id="rg-name" type="text" placeholder="Nguyễn Văn A" required>
+          </div>
+          <div class="field">
+            <label for="rg-email">Email</label>
+            <input id="rg-email" type="email" placeholder="ban@vidu.com" required>
+          </div>
+          <div class="field">
+            <label for="rg-pass">Mật khẩu</label>
+            <input id="rg-pass" type="password" placeholder="Tối thiểu 8 ký tự" required>
+          </div>
+          <div class="field">
+            <label for="rg-pass2">Xác nhận mật khẩu</label>
+            <input id="rg-pass2" type="password" placeholder="Nhập lại mật khẩu" required>
+          </div>
+          <div class="row-between" style="margin-bottom:24px;">
+            <label class="checkbox-line"><input type="checkbox" required> Tôi đồng ý với <a href="#" class="link-muted">Điều khoản dịch vụ</a></label>
+          </div>
+          <button class="btn btn-gold btn-wide" type="submit">Tạo tài khoản</button>
+        </form>
+        <div class="switch-line">Đã có tài khoản? <a href="login.html" style="color:var(--burgundy); font-weight:700;">Đăng nhập</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

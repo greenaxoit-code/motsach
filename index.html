@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mọt Sách — Đọc sách online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="mainNav">
+  <a href="index.html" class="brand">
+    <svg class="mark" viewBox="0 0 30 30" fill="none">
+      <path d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z" fill="#C9A24B"/>
+      <path d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z" fill="#E4C879"/>
+    </svg>
+    Mọt Sách
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Trang chủ</a>
+    <a href="index.html#shelf">Thể loại</a>
+    <a href="index.html#books">Kho sách</a>
+    <a href="index.html#stats">Thư viện</a>
+  </div>
+  <div class="nav-actions">
+    <a href="login.html" class="btn btn-ghost">Đăng nhập</a>
+    <a href="register.html" class="btn btn-gold">Đăng ký</a>
+    <button class="burger" aria-label="Menu" onclick="location.href='login.html'">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Thư viện số cho người yêu chữ</span>
+      <h1>Lật từng trang,<br>sống trong <em>từng câu chuyện.</em></h1>
+      <p class="lead">Hơn mười hai nghìn đầu sách được sắp gọn trên một kệ sách số — đọc mọi lúc, lưu tiến độ tự động, và quay lại đúng nơi bạn dừng.</p>
+      <div class="hero-actions">
+        <a href="register.html" class="btn btn-gold">Bắt đầu đọc miễn phí</a>
+        <a href="#books" class="btn btn-ghost">Khám phá kho sách</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="num">12.4K+</div><div class="lbl">Đầu sách</div></div>
+        <div><div class="num">850K+</div><div class="lbl">Độc giả</div></div>
+        <div><div class="num">4.8/5</div><div class="lbl">Đánh giá</div></div>
+      </div>
+    </div>
+
+    <div class="book-illustration">
+      <div class="floating-leaf"></div>
+      <div class="floating-leaf"></div>
+      <div class="floating-leaf"></div>
+      <div class="floating-leaf"></div>
+      <div class="stack">
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+      </div>
+      <div class="open-book">
+        <svg viewBox="0 0 360 260">
+          <path d="M180 30 C 120 8, 40 14, 12 34 L 12 210 C 40 190, 120 184, 180 206 Z" fill="#F4EEDD"/>
+          <path d="M180 30 C 240 8, 320 14, 348 34 L 348 210 C 320 190, 240 184, 180 206 Z" fill="#EAE0C4"/>
+          <path d="M180 30 L180 206" stroke="#C9A24B" stroke-width="3"/>
+          <g stroke="#C9B896" stroke-width="2" stroke-linecap="round">
+            <line x1="32" y1="60" x2="150" y2="46" />
+            <line x1="32" y1="82" x2="155" y2="70" />
+            <line x1="32" y1="104" x2="145" y2="94" />
+            <line x1="32" y1="126" x2="150" y2="118" />
+            <line x1="210" y1="46" x2="328" y2="60" />
+            <line x1="205" y1="70" x2="328" y2="82" />
+            <line x1="215" y1="94" x2="328" y2="104" />
+            <line x1="210" y1="118" x2="328" y2="126" />
+          </g>
+          <path d="M164 8 L196 8 L196 74 L180 60 L164 74 Z" fill="#7A2E2E"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHELF / CATEGORIES ================= -->
+<section class="section" id="shelf">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="kicker">Kệ sách</span>
+        <h2>Chọn một thể loại để bắt đầu</h2>
+      </div>
+      <p>Mỗi cuốn sách trên kệ được xếp theo chiều cao và màu gáy — kéo ngang để xem hết thể loại.</p>
+    </div>
+    <div class="shelf">
+      <div class="spines">
+        <div class="spine c1"><span>Tiểu thuyết</span></div>
+        <div class="spine c2"><span>Trinh thám</span></div>
+        <div class="spine c3"><span>Ngôn tình</span></div>
+        <div class="spine c4"><span>Kỹ năng sống</span></div>
+        <div class="spine c5"><span>Lịch sử</span></div>
+        <div class="spine c6"><span>Khoa học viễn tưởng</span></div>
+        <div class="spine c7"><span>Tản văn</span></div>
+      </div>
+      <div class="shelf-plank"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURED BOOKS ================= -->
+<section class="section" id="books" style="background:var(--parchment-2)">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="kicker">Đang được đọc nhiều</span>
+        <h2>Gợi ý tuần này</h2>
+      </div>
+      <p>Được tổng hợp từ tiến độ đọc và đánh giá của cộng đồng Mọt Sách.</p>
+    </div>
+    <div class="book-grid">
+      <div class="book-card">
+        <div class="cover cv1"><h3>Những Con Đường Không Tên</h3></div>
+        <div class="author">Lâm Vũ Khanh</div>
+        <div class="stars">★★★★★</div>
+        <div class="progress-track"><div class="progress-fill" style="width:78%"></div></div>
+        <div class="progress-label">78% độc giả đã đọc hết</div>
+      </div>
+      <div class="book-card">
+        <div class="cover cv2"><h3>Mật Mã Của Sương Sớm</h3></div>
+        <div class="author">Đỗ Thiên Ân</div>
+        <div class="stars">★★★★☆</div>
+        <div class="progress-track"><div class="progress-fill" style="width:64%"></div></div>
+        <div class="progress-label">64% độc giả đã đọc hết</div>
+      </div>
+      <div class="book-card">
+        <div class="cover cv3"><h3>Thư Gửi Mùa Hạ Cũ</h3></div>
+        <div class="author">Ngọc Bình Nguyên</div>
+        <div class="stars">★★★★★</div>
+        <div class="progress-track"><div class="progress-fill" style="width:91%"></div></div>
+        <div class="progress-label">91% độc giả đã đọc hết</div>
+      </div>
+      <div class="book-card">
+        <div class="cover cv4"><h3>7 Thói Quen Của Người Đọc Sâu</h3></div>
+        <div class="author">Trần Minh Đức</div>
+        <div class="stars">★★★★☆</div>
+        <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
+        <div class="progress-label">55% độc giả đã đọc hết</div>
+      </div>
+      <div class="book-card">
+        <div class="cover cv5"><h3>Đế Chế Của Những Vì Sao</h3></div>
+        <div class="author">Hoàng Kỳ Nam</div>
+        <div class="stars">★★★★★</div>
+        <div class="progress-track"><div class="progress-fill" style="width:70%"></div></div>
+        <div class="progress-label">70% độc giả đã đọc hết</div>
+      </div>
+      <div class="book-card">
+        <div class="cover cv6"><h3>Biên Niên Sử Đất Việt</h3></div>
+        <div class="author">Vũ Gia Hiển</div>
+        <div class="stars">★★★★☆</div>
+        <div class="progress-track"><div class="progress-fill" style="width:47%"></div></div>
+        <div class="progress-label">47% độc giả đã đọc hết</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS OPEN BOOK ================= -->
+<section class="section" id="stats">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="kicker">Con số biết nói</span>
+        <h2>Thư viện của chúng tôi</h2>
+      </div>
+    </div>
+    <div class="stats-book">
+      <div class="stats-page">
+        <h3>Kho nội dung</h3>
+        <div class="stat-row"><span class="num">12,400+</span><span class="lbl">đầu sách đủ thể loại</span></div>
+        <div class="stat-row"><span class="num">32</span><span class="lbl">thể loại đang cập nhật</span></div>
+        <div class="stat-row"><span class="num">180+</span><span class="lbl">tác giả Việt Nam</span></div>
+      </div>
+      <div class="stats-page">
+        <h3>Cộng đồng đọc</h3>
+        <div class="stat-row"><span class="num">850K+</span><span class="lbl">độc giả hoạt động</span></div>
+        <div class="stat-row"><span class="num">4.8/5</span><span class="lbl">đánh giá trung bình</span></div>
+        <div class="stat-row"><span class="num">2.1M</span><span class="lbl">giờ đọc mỗi tháng</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta">
+  <div class="wrap">
+    <h2>Sẵn sàng lật trang đầu tiên?</h2>
+    <p>Tạo tài khoản trong một phút, lưu sách yêu thích và đọc tiếp trên mọi thiết bị.</p>
+    <a href="register.html" class="btn btn-gold">Tạo tài khoản miễn phí</a>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <svg class="mark" viewBox="0 0 30 30" fill="none">
+            <path d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z" fill="#C9A24B"/>
+            <path d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z" fill="#E4C879"/>
+          </svg>
+          Mọt Sách
+        </div>
+        <p>Không gian đọc sách trực tuyến dành cho những ai luôn muốn có một cuốn sách trong túi.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Khám phá</h4>
+        <a href="index.html#shelf">Thể loại</a>
+        <a href="index.html#books">Sách nổi bật</a>
+        <a href="index.html#stats">Thư viện</a>
+      </div>
+      <div class="foot-col">
+        <h4>Tài khoản</h4>
+        <a href="login.html">Đăng nhập</a>
+        <a href="register.html">Đăng ký</a>
+        <a href="#">Trợ giúp</a>
+      </div>
+      <div class="foot-col">
+        <h4>Về chúng tôi</h4>
+        <a href="#">Giới thiệu</a>
+        <a href="#">Điều khoản</a>
+        <a href="#">Liên hệ</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Mọt Sách. Mọi trang sách đều đáng được đọc.</span>
+      <div class="socials">
+        <a href="#">Fb</a>
+        <a href="#">Ig</a>
+        <a href="#">Tt</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
+  });
+</script>
+</body>
+</html>
