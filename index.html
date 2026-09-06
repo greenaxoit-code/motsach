@@ -1,253 +1,491 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mọt Sách — Đọc sách online</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-
-<!-- ================= NAV ================= -->
-<nav class="nav" id="mainNav">
-  <a href="index.html" class="brand">
-    <svg class="mark" viewBox="0 0 30 30" fill="none">
-      <path d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z" fill="#C9A24B"/>
-      <path d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z" fill="#E4C879"/>
-    </svg>
-    Mọt Sách
-  </a>
-  <div class="nav-links">
-    <a href="index.html">Trang chủ</a>
-    <a href="index.html#shelf">Thể loại</a>
-    <a href="index.html#books">Kho sách</a>
-    <a href="index.html#stats">Thư viện</a>
-  </div>
-  <div class="nav-actions">
-    <a href="login.html" class="btn btn-ghost">Đăng nhập</a>
-    <a href="register.html" class="btn btn-gold">Đăng ký</a>
-    <button class="burger" aria-label="Menu" onclick="location.href='login.html'">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <span class="eyebrow">Thư viện số cho người yêu chữ</span>
-      <h1>Lật từng trang,<br>sống trong <em>từng câu chuyện.</em></h1>
-      <p class="lead">Hơn mười hai nghìn đầu sách được sắp gọn trên một kệ sách số — đọc mọi lúc, lưu tiến độ tự động, và quay lại đúng nơi bạn dừng.</p>
-      <div class="hero-actions">
-        <a href="register.html" class="btn btn-gold">Bắt đầu đọc miễn phí</a>
-        <a href="#books" class="btn btn-ghost">Khám phá kho sách</a>
-      </div>
-      <div class="hero-stats">
-        <div><div class="num">12.4K+</div><div class="lbl">Đầu sách</div></div>
-        <div><div class="num">850K+</div><div class="lbl">Độc giả</div></div>
-        <div><div class="num">4.8/5</div><div class="lbl">Đánh giá</div></div>
-      </div>
-    </div>
-
-    <div class="book-illustration">
-      <div class="floating-leaf"></div>
-      <div class="floating-leaf"></div>
-      <div class="floating-leaf"></div>
-      <div class="floating-leaf"></div>
-      <div class="stack">
-        <div class="book"></div>
-        <div class="book"></div>
-        <div class="book"></div>
-      </div>
-      <div class="open-book">
-        <svg viewBox="0 0 360 260">
-          <path d="M180 30 C 120 8, 40 14, 12 34 L 12 210 C 40 190, 120 184, 180 206 Z" fill="#F4EEDD"/>
-          <path d="M180 30 C 240 8, 320 14, 348 34 L 348 210 C 320 190, 240 184, 180 206 Z" fill="#EAE0C4"/>
-          <path d="M180 30 L180 206" stroke="#C9A24B" stroke-width="3"/>
-          <g stroke="#C9B896" stroke-width="2" stroke-linecap="round">
-            <line x1="32" y1="60" x2="150" y2="46" />
-            <line x1="32" y1="82" x2="155" y2="70" />
-            <line x1="32" y1="104" x2="145" y2="94" />
-            <line x1="32" y1="126" x2="150" y2="118" />
-            <line x1="210" y1="46" x2="328" y2="60" />
-            <line x1="205" y1="70" x2="328" y2="82" />
-            <line x1="215" y1="94" x2="328" y2="104" />
-            <line x1="210" y1="118" x2="328" y2="126" />
-          </g>
-          <path d="M164 8 L196 8 L196 74 L180 60 L164 74 Z" fill="#7A2E2E"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mọt Sách — Quản lý sách online</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- ================= NAV ================= -->
+    <nav class="nav" id="mainNav">
+      <a href="index.html" class="brand">
+        <svg class="mark" viewBox="0 0 30 30" fill="none">
+          <path d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z" fill="#C9A24B" />
+          <path d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z" fill="#E4C879" />
         </svg>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= SHELF / CATEGORIES ================= -->
-<section class="section" id="shelf">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <span class="kicker">Kệ sách</span>
-        <h2>Chọn một thể loại để bắt đầu</h2>
-      </div>
-      <p>Mỗi cuốn sách trên kệ được xếp theo chiều cao và màu gáy — kéo ngang để xem hết thể loại.</p>
-    </div>
-    <div class="shelf">
-      <div class="spines">
-        <div class="spine c1"><span>Tiểu thuyết</span></div>
-        <div class="spine c2"><span>Trinh thám</span></div>
-        <div class="spine c3"><span>Ngôn tình</span></div>
-        <div class="spine c4"><span>Kỹ năng sống</span></div>
-        <div class="spine c5"><span>Lịch sử</span></div>
-        <div class="spine c6"><span>Khoa học viễn tưởng</span></div>
-        <div class="spine c7"><span>Tản văn</span></div>
-      </div>
-      <div class="shelf-plank"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FEATURED BOOKS ================= -->
-<section class="section" id="books" style="background:var(--parchment-2)">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <span class="kicker">Đang được đọc nhiều</span>
-        <h2>Gợi ý tuần này</h2>
-      </div>
-      <p>Được tổng hợp từ tiến độ đọc và đánh giá của cộng đồng Mọt Sách.</p>
-    </div>
-    <div class="book-grid">
-      <div class="book-card">
-        <div class="cover cv1"><h3>Những Con Đường Không Tên</h3></div>
-        <div class="author">Lâm Vũ Khanh</div>
-        <div class="stars">★★★★★</div>
-        <div class="progress-track"><div class="progress-fill" style="width:78%"></div></div>
-        <div class="progress-label">78% độc giả đã đọc hết</div>
-      </div>
-      <div class="book-card">
-        <div class="cover cv2"><h3>Mật Mã Của Sương Sớm</h3></div>
-        <div class="author">Đỗ Thiên Ân</div>
-        <div class="stars">★★★★☆</div>
-        <div class="progress-track"><div class="progress-fill" style="width:64%"></div></div>
-        <div class="progress-label">64% độc giả đã đọc hết</div>
-      </div>
-      <div class="book-card">
-        <div class="cover cv3"><h3>Thư Gửi Mùa Hạ Cũ</h3></div>
-        <div class="author">Ngọc Bình Nguyên</div>
-        <div class="stars">★★★★★</div>
-        <div class="progress-track"><div class="progress-fill" style="width:91%"></div></div>
-        <div class="progress-label">91% độc giả đã đọc hết</div>
-      </div>
-      <div class="book-card">
-        <div class="cover cv4"><h3>7 Thói Quen Của Người Đọc Sâu</h3></div>
-        <div class="author">Trần Minh Đức</div>
-        <div class="stars">★★★★☆</div>
-        <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
-        <div class="progress-label">55% độc giả đã đọc hết</div>
-      </div>
-      <div class="book-card">
-        <div class="cover cv5"><h3>Đế Chế Của Những Vì Sao</h3></div>
-        <div class="author">Hoàng Kỳ Nam</div>
-        <div class="stars">★★★★★</div>
-        <div class="progress-track"><div class="progress-fill" style="width:70%"></div></div>
-        <div class="progress-label">70% độc giả đã đọc hết</div>
-      </div>
-      <div class="book-card">
-        <div class="cover cv6"><h3>Biên Niên Sử Đất Việt</h3></div>
-        <div class="author">Vũ Gia Hiển</div>
-        <div class="stars">★★★★☆</div>
-        <div class="progress-track"><div class="progress-fill" style="width:47%"></div></div>
-        <div class="progress-label">47% độc giả đã đọc hết</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= STATS OPEN BOOK ================= -->
-<section class="section" id="stats">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <span class="kicker">Con số biết nói</span>
-        <h2>Thư viện của chúng tôi</h2>
-      </div>
-    </div>
-    <div class="stats-book">
-      <div class="stats-page">
-        <h3>Kho nội dung</h3>
-        <div class="stat-row"><span class="num">12,400+</span><span class="lbl">đầu sách đủ thể loại</span></div>
-        <div class="stat-row"><span class="num">32</span><span class="lbl">thể loại đang cập nhật</span></div>
-        <div class="stat-row"><span class="num">180+</span><span class="lbl">tác giả Việt Nam</span></div>
-      </div>
-      <div class="stats-page">
-        <h3>Cộng đồng đọc</h3>
-        <div class="stat-row"><span class="num">850K+</span><span class="lbl">độc giả hoạt động</span></div>
-        <div class="stat-row"><span class="num">4.8/5</span><span class="lbl">đánh giá trung bình</span></div>
-        <div class="stat-row"><span class="num">2.1M</span><span class="lbl">giờ đọc mỗi tháng</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CTA ================= -->
-<section class="cta">
-  <div class="wrap">
-    <h2>Sẵn sàng lật trang đầu tiên?</h2>
-    <p>Tạo tài khoản trong một phút, lưu sách yêu thích và đọc tiếp trên mọi thiết bị.</p>
-    <a href="register.html" class="btn btn-gold">Tạo tài khoản miễn phí</a>
-  </div>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <div class="brand">
-          <svg class="mark" viewBox="0 0 30 30" fill="none">
-            <path d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z" fill="#C9A24B"/>
-            <path d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z" fill="#E4C879"/>
-          </svg>
-          Mọt Sách
-        </div>
-        <p>Không gian đọc sách trực tuyến dành cho những ai luôn muốn có một cuốn sách trong túi.</p>
-      </div>
-      <div class="foot-col">
-        <h4>Khám phá</h4>
+        Mọt Sách
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Trang chủ</a>
         <a href="index.html#shelf">Thể loại</a>
-        <a href="index.html#books">Sách nổi bật</a>
-        <a href="index.html#stats">Thư viện</a>
+        <a href="index.html#books">Sách trong hệ thống</a>
+        <a href="admin.html" id="navAdminLink">Quản trị</a>
       </div>
-      <div class="foot-col">
-        <h4>Tài khoản</h4>
-        <a href="login.html">Đăng nhập</a>
-        <a href="register.html">Đăng ký</a>
-        <a href="#">Trợ giúp</a>
-      </div>
-      <div class="foot-col">
-        <h4>Về chúng tôi</h4>
-        <a href="#">Giới thiệu</a>
-        <a href="#">Điều khoản</a>
-        <a href="#">Liên hệ</a>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>© 2026 Mọt Sách. Mọi trang sách đều đáng được đọc.</span>
-      <div class="socials">
-        <a href="#">Fb</a>
-        <a href="#">Ig</a>
-        <a href="#">Tt</a>
-      </div>
-    </div>
-  </div>
-</footer>
 
-<script>
-  window.addEventListener('scroll', () => {
-    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
-  });
-</script>
-</body>
+      <span
+        id="navUserLabel"
+        style="
+          display: none;
+          font-family: var(--font-mono);
+          font-size: 12px;
+          color: var(--muted-2);
+          margin-right: 10px;
+          align-self: center;
+        "
+      ></span>
+      <button class="burger" aria-label="Menu" onclick="handleNavUserClick()">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <span class="eyebrow">Nền tảng quản lý sách online</span>
+          <h1>
+            Quản lý cả tủ sách,<br />chỉ trong <em>một trang duy nhất.</em>
+          </h1>
+          <p class="lead">
+            Theo dõi đầu sách, số bản, thể loại và tình trạng còn hàng — mọi
+            thay đổi từ trang quản trị đều hiển thị ngay tại đây.
+          </p>
+          <div class="hero-actions">
+            <a href="register.html" class="btn btn-gold"
+              >Bắt đầu quản lý miễn phí</a
+            >
+            <a href="admin.html" class="btn btn-ghost" id="heroAdminBtn">Vào trang quản trị</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="num js-total-books">0</div>
+              <div class="lbl">Đầu sách</div>
+            </div>
+            <div>
+              <div class="num">7</div>
+              <div class="lbl">Thể loại</div>
+            </div>
+            <div>
+              <div class="num">Tức thì</div>
+              <div class="lbl">Đồng bộ dữ liệu</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="book-illustration">
+          <div class="floating-leaf"></div>
+          <div class="floating-leaf"></div>
+          <div class="floating-leaf"></div>
+          <div class="floating-leaf"></div>
+          <div class="stack">
+            <div class="book"></div>
+            <div class="book"></div>
+            <div class="book"></div>
+          </div>
+          <div class="open-book">
+            <svg viewBox="0 0 360 260">
+              <path
+                d="M180 30 C 120 8, 40 14, 12 34 L 12 210 C 40 190, 120 184, 180 206 Z"
+                fill="#F4EEDD"
+              />
+              <path
+                d="M180 30 C 240 8, 320 14, 348 34 L 348 210 C 320 190, 240 184, 180 206 Z"
+                fill="#EAE0C4"
+              />
+              <path d="M180 30 L180 206" stroke="#C9A24B" stroke-width="3" />
+              <g stroke="#C9B896" stroke-width="2" stroke-linecap="round">
+                <line x1="32" y1="60" x2="150" y2="46" />
+                <line x1="32" y1="82" x2="155" y2="70" />
+                <line x1="32" y1="104" x2="145" y2="94" />
+                <line x1="32" y1="126" x2="150" y2="118" />
+                <line x1="210" y1="46" x2="328" y2="60" />
+                <line x1="205" y1="70" x2="328" y2="82" />
+                <line x1="215" y1="94" x2="328" y2="104" />
+                <line x1="210" y1="118" x2="328" y2="126" />
+              </g>
+              <path
+                d="M164 8 L196 8 L196 74 L180 60 L164 74 Z"
+                fill="#7A2E2E"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SHELF / CATEGORIES ================= -->
+    <section class="section" id="shelf">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Kệ sách</span>
+            <h2>Quản lý theo từng thể loại</h2>
+          </div>
+          <p>
+            Mỗi cuốn sách được phân loại và xếp gọn theo gáy màu — kéo ngang để
+            xem hết thể loại.
+          </p>
+        </div>
+        <div class="shelf">
+          <div class="spines">
+            <div class="spine c1"><span>Tiểu thuyết</span></div>
+            <div class="spine c2"><span>Trinh thám</span></div>
+            <div class="spine c3"><span>Ngôn tình</span></div>
+            <div class="spine c4"><span>Kỹ năng sống</span></div>
+            <div class="spine c5"><span>Lịch sử</span></div>
+            <div class="spine c6"><span>Khoa học viễn tưởng</span></div>
+            <div class="spine c7"><span>Tản văn</span></div>
+          </div>
+          <div class="shelf-plank"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BOOKS FROM SYSTEM (dynamic) ================= -->
+    <section class="section" id="books" style="background: var(--parchment-2)">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Trong hệ thống</span>
+            <h2>Sách đang được quản lý</h2>
+          </div>
+          <p>
+            Dữ liệu bên dưới lấy trực tiếp từ trang quản trị — thêm, sửa hoặc
+            xoá sách sẽ cập nhật ngay tại đây.
+          </p>
+        </div>
+        <div class="book-grid" id="bookGrid">
+          <!-- rendered by JS from localStorage -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= STATS OPEN BOOK ================= -->
+    <section class="section" id="stats">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Con số biết nói</span>
+            <h2>Tình trạng thư viện</h2>
+          </div>
+        </div>
+        <div class="stats-book">
+          <div class="stats-page">
+            <h3>Kho nội dung</h3>
+            <div class="stat-row">
+              <span class="num js-total-books">0</span
+              ><span class="lbl">đầu sách trong hệ thống</span>
+            </div>
+            <div class="stat-row">
+              <span class="num">7</span
+              ><span class="lbl">thể loại đang quản lý</span>
+            </div>
+            <div class="stat-row">
+              <span class="num js-total-authors">0</span
+              ><span class="lbl">tác giả khác nhau</span>
+            </div>
+          </div>
+          <div class="stats-page">
+            <h3>Vận hành hệ thống</h3>
+            <div class="stat-row">
+              <span class="num js-available-copies">0</span
+              ><span class="lbl">bản còn sẵn sàng</span>
+            </div>
+            <div class="stat-row">
+              <span class="num js-out-books">0</span
+              ><span class="lbl">đầu sách đã hết</span>
+            </div>
+            <div class="stat-row">
+              <span class="num" id="lastUpdatedLabel" style="font-size: 15px"
+                >—</span
+              ><span class="lbl">trạng thái đồng bộ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WEATHER WIDGET (tính năng phụ) ================= -->
+    <section class="section" id="weather">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Tiện ích phụ</span>
+            <h2>Thời tiết hôm nay</h2>
+          </div>
+          <p>
+            Xem nhanh thời tiết nơi bạn đang đọc sách — dữ liệu từ
+            OpenWeatherMap.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+          <input
+            id="weatherCityInput"
+            type="text"
+            placeholder="Nhập tên thành phố..."
+            value="Ho Chi Minh City"
+            style="
+              flex: 1;
+              min-width: 220px;
+              padding: 12px 16px;
+              border: 1px solid #d8cdb0;
+              border-radius: 8px;
+              font-size: 14px;
+              font-family: inherit;
+            "
+          />
+          <button class="btn btn-gold" id="weatherSearchBtn" type="button">
+            Xem thời tiết
+          </button>
+        </div>
+
+        <div
+          id="weatherResult"
+          style="
+            font-family: var(--font-mono);
+            color: var(--muted-2);
+            min-height: 64px;
+          "
+        >
+          Đang tải thời tiết...
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>  
+      <div class="wrap">
+        <div class="foot-grid">
+          <div class="foot-brand">
+            <div class="brand">
+              <svg class="mark" viewBox="0 0 30 30" fill="none">
+                <path
+                  d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z"
+                  fill="#C9A24B"
+                />
+                <path
+                  d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z"
+                  fill="#E4C879"
+                />
+              </svg>
+              Mọt Sách
+            </div>
+            <p>
+              Hệ thống quản lý sách trực tuyến dành cho thư viện, nhà sách và
+              người yêu sách.
+            </p>
+          </div>
+          <div class="foot-col">
+            <h4>Khám phá</h4>
+            <a href="index.html#shelf">Thể loại</a>
+            <a href="index.html#books">Sách trong hệ thống</a>
+            <a href="index.html#stats">Thống kê</a>
+          </div>
+          <div class="foot-col">
+            <h4>Tài khoản</h4>
+            <a href="login.html">Đăng nhập</a>
+            <a href="register.html">Đăng ký</a>
+            <a href="admin.html" id="footerAdminLink">Trang quản trị</a>
+          </div>
+          <div class="foot-col">
+            <h4>Về chúng tôi</h4>
+            <a href="#">Giới thiệu</a>
+            <a href="#">Điều khoản</a>
+            <a href="#">Liên hệ</a>
+          </div>
+        </div>
+        <div class="foot-bottom">
+          <span>© 2026 Mọt Sách. Quản lý sách gọn gàng, dễ dàng.</span>
+          <div class="socials">
+            <a href="#">Fb</a>
+            <a href="#">Ig</a>
+            <a href="#">Tt</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="books.js"></script>
+    <script>
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("mainNav")
+          .classList.toggle("scrolled", window.scrollY > 40);
+      });
+
+      function renderHomeBooks() {
+        const books = loadBooks();
+        const grid = document.getElementById("bookGrid");
+
+        if (books.length === 0) {
+          grid.innerHTML =
+            '<p style="color:var(--muted); grid-column:1/-1;">Chưa có sách nào trong hệ thống. Hãy vào <a href="admin.html" style="color:var(--burgundy); font-weight:600;">trang quản trị</a> để thêm sách đầu tiên.</p>';
+        } else {
+          grid.innerHTML = books
+            .map(
+              (b) => `
+        <div class="book-card">
+          <div class="cover ${b.cover || "cv1"}"><h3>${escapeHtml(b.title)}</h3></div>
+          <div class="author">${escapeHtml(b.author)}</div>
+          <div class="stars">${"★".repeat(b.rating || 0)}${"☆".repeat(5 - (b.rating || 0))}</div>
+          <div class="meta-row" style="display:flex; align-items:center; justify-content:space-between;">
+            <span class="badge ${b.status === "available" ? "badge-available" : "badge-out"}">${b.status === "available" ? "Còn sách" : "Hết sách"}</span>
+            <span class="progress-label" style="font-family:var(--font-mono);">${b.copies} bản</span>
+          </div>
+        </div>
+      `,
+            )
+            .join("");
+        }
+
+        document
+          .querySelectorAll(".js-total-books")
+          .forEach((el) => (el.textContent = books.length));
+        document
+          .querySelectorAll(".js-total-authors")
+          .forEach(
+            (el) => (el.textContent = new Set(books.map((b) => b.author)).size),
+          );
+        document
+          .querySelectorAll(".js-available-copies")
+          .forEach(
+            (el) =>
+              (el.textContent = books
+                .filter((b) => b.status === "available")
+                .reduce((s, b) => s + (Number(b.copies) || 0), 0)),
+          );
+        document
+          .querySelectorAll(".js-out-books")
+          .forEach(
+            (el) =>
+              (el.textContent = books.filter(
+                (b) => b.status !== "available",
+              ).length),
+          );
+        document.getElementById("lastUpdatedLabel").textContent =
+          getLastUpdatedLabel();
+      }
+
+      // Chỉ tài khoản admin mới thấy các liên kết vào trang quản trị.
+      // Tài khoản thường (hoặc khách chưa đăng nhập) chỉ có thể xem sách.
+      function applyRoleVisibility() {
+        const admin = isAdmin();
+        [
+          document.getElementById("navAdminLink"),
+          document.getElementById("heroAdminBtn"),
+          document.getElementById("footerAdminLink"),
+        ].forEach((el) => {
+          if (el) el.style.display = admin ? "" : "none";
+        });
+
+        const user = getCurrentUser();
+        const label = document.getElementById("navUserLabel");
+        if (user) {
+          label.textContent =
+            "Xin chào, " + user.name + (admin ? " (Quản trị)" : "");
+          label.style.display = "inline";
+        } else {
+          label.style.display = "none";
+        }
+      }
+
+      // Nút menu (icon burger): đưa tới đăng nhập nếu chưa có phiên,
+      // hoặc hỏi đăng xuất nếu đã đăng nhập.
+      function handleNavUserClick() {
+        const user = getCurrentUser();
+        if (user) {
+          if (confirm("Đăng xuất khỏi tài khoản " + user.name + "?")) {
+            logout();
+            window.location.reload();
+          }
+        } else {
+          window.location.href = "login.html";
+        }
+      }
+
+      // ===== Tiện ích phụ: thời tiết (OpenWeatherMap) =====
+      const OPENWEATHER_API_KEY = "b7f96772f3a9a156ce9ec79725f315ec";
+
+      async function fetchWeather(city) {
+        const resultBox = document.getElementById("weatherResult");
+        resultBox.textContent = "Đang tải thời tiết...";
+        try {
+          const url =
+            "https://api.openweathermap.org/data/2.5/weather?q=" +
+            encodeURIComponent(city) +
+            "&appid=" +
+            OPENWEATHER_API_KEY +
+            "&units=metric&lang=vi";
+          const res = await fetch(url);
+
+          if (!res.ok) {
+            let apiMessage = "";
+            try {
+              const errData = await res.json();
+              apiMessage = errData.message || "";
+            } catch (parseErr) {
+              // phản hồi lỗi không phải JSON hợp lệ, bỏ qua
+            }
+            console.error("OpenWeatherMap lỗi:", res.status, apiMessage);
+            resultBox.textContent =
+              "Lỗi " +
+              res.status +
+              (apiMessage ? ": " + apiMessage : ": Không thể tải dữ liệu thời tiết lúc này.");
+            return;
+          }
+
+          const data = await res.json();
+          const iconUrl =
+            "https://openweathermap.org/img/wn/" +
+            data.weather[0].icon +
+            "@2x.png";
+
+          resultBox.innerHTML = `
+            <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+              <img src="${iconUrl}" alt="${escapeHtml(data.weather[0].description)}" width="64" height="64">
+              <div>
+                <div style="font-size:26px; color:var(--ink,#2b2118); font-family:var(--font-serif, inherit);">
+                  ${Math.round(data.main.temp)}°C — ${escapeHtml(data.name)}
+                </div>
+                <div>${escapeHtml(data.weather[0].description)} · Cảm giác như ${Math.round(data.main.feels_like)}°C</div>
+                <div>Độ ẩm: ${data.main.humidity}% · Gió: ${data.wind.speed} m/s</div>
+              </div>
+            </div>
+          `;
+        } catch (err) {
+          console.error("Lỗi kết nối OpenWeatherMap:", err);
+          resultBox.textContent =
+            "Có lỗi xảy ra khi kết nối tới dịch vụ thời tiết (xem Console để biết chi tiết).";
+        }
+      }
+
+      document
+        .getElementById("weatherSearchBtn")
+        .addEventListener("click", () => {
+          const city = document.getElementById("weatherCityInput").value.trim();
+          if (city) fetchWeather(city);
+        });
+
+      document
+        .getElementById("weatherCityInput")
+        .addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("weatherSearchBtn").click();
+          }
+        });
+
+      window.addEventListener("load", () => {
+        renderHomeBooks();
+        applyRoleVisibility();
+        fetchWeather("Ho Chi Minh City");
+      });
+    </script>
+  </body>
 </html>
