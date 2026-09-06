@@ -6,7 +6,7 @@
 <title>Đăng ký — Mọt Sách</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
@@ -21,8 +21,8 @@
   <div class="nav-links">
     <a href="index.html">Trang chủ</a>
     <a href="index.html#shelf">Thể loại</a>
-    <a href="index.html#books">Kho sách</a>
-    <a href="index.html#stats">Thư viện</a>
+    <a href="index.html#books">Sách trong hệ thống</a>
+    <a href="admin.html">Quản trị</a>
   </div>
   <div class="nav-actions">
     <a href="login.html" class="btn btn-ghost">Đã có tài khoản?</a>
@@ -38,10 +38,10 @@
         <div class="leaf-deco l1"></div>
         <div class="leaf-deco l2"></div>
         <div class="quote-mark">“</div>
-        <p class="auth-quote">Mỗi trang sách là một cánh cửa mở ra thế giới khác — chỉ cần bạn đăng nhập để bước qua.</p>
+        <p class="auth-quote">Quản lý cả tủ sách của bạn chỉ với một lần đăng nhập.</p>
         <div class="auth-quote-by">— Mọt Sách</div>
       </div>
-      <div style="font-family:var(--font-mono); font-size:12px; color:var(--muted-2); letter-spacing:.06em;">12,400+ đầu sách đang chờ bạn</div>
+      <div style="font-family:var(--font-mono); font-size:12px; color:var(--muted-2); letter-spacing:.06em;">Đầu sách, số bản và tình trạng — đồng bộ tức thì</div>
     </div>
 
     <div class="auth-main">
@@ -53,8 +53,8 @@
 
       <div class="form-panel active">
         <div class="auth-title">Tạo tài khoản mới</div>
-        <div class="auth-sub">Chỉ một phút để có kệ sách của riêng bạn.</div>
-        <form onsubmit="return false;">
+        <div class="auth-sub">Chỉ một phút để bắt đầu quản lý tủ sách của bạn.</div>
+        <form id="registerForm">
           <div class="field">
             <label for="rg-name">Họ và tên</label>
             <input id="rg-name" type="text" placeholder="Nguyễn Văn A" required>
@@ -72,8 +72,9 @@
             <input id="rg-pass2" type="password" placeholder="Nhập lại mật khẩu" required>
           </div>
           <div class="row-between" style="margin-bottom:24px;">
-            <label class="checkbox-line"><input type="checkbox" required> Tôi đồng ý với <a href="#" class="link-muted">Điều khoản dịch vụ</a></label>
+            <label class="checkbox-line"><input type="checkbox" id="rg-terms" required> Tôi đồng ý với <a href="#" class="link-muted">Điều khoản dịch vụ</a></label>
           </div>
+          <div id="rg-error" style="display:none; color:var(--burgundy); font-size:13px; margin-bottom:16px;"></div>
           <button class="btn btn-gold btn-wide" type="submit">Tạo tài khoản</button>
         </form>
         <div class="switch-line">Đã có tài khoản? <a href="login.html" style="color:var(--burgundy); font-weight:700;">Đăng nhập</a></div>
@@ -81,6 +82,78 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById("registerForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("rg-name");
+    const email = document.getElementById("rg-email");
+    const pass = document.getElementById("rg-pass");
+    const pass2 = document.getElementById("rg-pass2");
+    const terms = document.getElementById("rg-terms");
+    const errorBox = document.getElementById("rg-error");
+
+    errorBox.style.display = "none";
+
+    // Kiểm tra các trường bắt buộc (họ tên, email, checkbox điều khoản...)
+    for (const field of [name, email, pass, pass2, terms]) {
+      if (!field.checkValidity()) {
+        field.reportValidity();
+        return;
+      }
+    }
+
+    // Mật khẩu tối thiểu 8 ký tự
+    if (pass.value.length < 8) {
+      errorBox.textContent = "Mật khẩu phải có tối thiểu 8 ký tự.";
+      errorBox.style.display = "block";
+      pass.focus();
+      return;
+    }
+
+    // Mật khẩu xác nhận phải khớp
+    if (pass.value !== pass2.value) {
+      errorBox.textContent = "Mật khẩu xác nhận không khớp.";
+      errorBox.style.display = "block";
+      pass2.focus();
+      return;
+    }
+
+    // Lấy danh sách tài khoản hiện có trong localStorage
+    let accounts = [];
+    try {
+      accounts = JSON.parse(localStorage.getItem("msAccounts")) || [];
+    } catch (err) {
+      accounts = [];
+    }
+
+    // Không cho phép đăng ký trùng email
+    const emailExists = accounts.some(
+      (acc) => acc.email.toLowerCase() === email.value.trim().toLowerCase()
+    );
+    if (emailExists) {
+      errorBox.textContent = "Email này đã được đăng ký. Vui lòng đăng nhập.";
+      errorBox.style.display = "block";
+      email.focus();
+      return;
+    }
+
+    // Lưu tài khoản mới vào localStorage
+    // Tài khoản đăng ký công khai luôn là tài khoản thường (chỉ xem sách).
+    // Tài khoản quản trị (role: 'admin') chỉ được cấp sẵn, không tự đăng ký được.
+    accounts.push({
+      name: name.value.trim(),
+      email: email.value.trim(),
+      password: pass.value,
+      role: 'user',
+    });
+    localStorage.setItem("msAccounts", JSON.stringify(accounts));
+
+    // Đủ điều kiện -> chuyển sang trang chủ
+    window.location.href = "index.html";
+  });
+</script>
 
 </body>
 </html>
