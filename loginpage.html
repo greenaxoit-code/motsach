@@ -1,84 +1,242 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Đăng nhập — Mọt Sách</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<nav class="nav scrolled" id="mainNav">
-  <a href="index.html" class="brand">
-    <svg class="mark" viewBox="0 0 30 30" fill="none">
-      <path d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z" fill="#C9A24B"/>
-      <path d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z" fill="#E4C879"/>
-    </svg>
-    Mọt Sách
-  </a>
-  <div class="nav-links">
-    <a href="index.html">Trang chủ</a>
-    <a href="index.html#shelf">Thể loại</a>
-    <a href="index.html#books">Kho sách</a>
-    <a href="index.html#stats">Thư viện</a>
-  </div>
-  <div class="nav-actions">
-    <a href="register.html" class="btn btn-ghost">Chưa có tài khoản?</a>
-    <a href="register.html" class="btn btn-gold">Đăng ký</a>
-  </div>
-</nav>
-
-<div class="auth-shell">
-  <div class="auth-card">
-    <div class="auth-side">
-      <a href="index.html" class="back-link">← Quay lại trang chủ</a>
-      <div>
-        <div class="leaf-deco l1"></div>
-        <div class="leaf-deco l2"></div>
-        <div class="quote-mark">“</div>
-        <p class="auth-quote">Mỗi trang sách là một cánh cửa mở ra thế giới khác — chỉ cần bạn đăng nhập để bước qua.</p>
-        <div class="auth-quote-by">— Mọt Sách</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập — Mọt Sách</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <nav class="nav scrolled" id="mainNav">
+      <a href="index.html" class="brand">
+        <svg class="mark" viewBox="0 0 30 30" fill="none">
+          <path d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z" fill="#C9A24B" />
+          <path d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z" fill="#E4C879" />
+        </svg>
+        Mọt Sách
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Trang chủ</a>
+        <a href="index.html#shelf">Thể loại</a>
+        <a href="index.html#books">Sách trong hệ thống</a>
+        <a href="admin.html">Quản trị</a>
       </div>
-      <div style="font-family:var(--font-mono); font-size:12px; color:var(--muted-2); letter-spacing:.06em;">12,400+ đầu sách đang chờ bạn</div>
-    </div>
-
-    <div class="auth-main">
-      <div class="tabs">
-        <a href="login.html" class="tab-btn active">Đăng nhập</a>
-        <a href="register.html" class="tab-btn">Đăng ký</a>
-        <div class="tab-indicator" style="width:76px; transform:translateX(0px);"></div>
+      <div class="nav-actions">
+        <a href="register.html" class="btn btn-ghost">Chưa có tài khoản?</a>
+        <a href="register.html" class="btn btn-gold">Đăng ký</a>
       </div>
+    </nav>
 
-      <div class="form-panel active">
-        <div class="auth-title">Chào bạn quay lại</div>
-        <div class="auth-sub">Đăng nhập để tiếp tục đọc dở trang sách của bạn.</div>
-        <form onsubmit="return false;">
-          <div class="field">
-            <label for="li-email">Email</label>
-            <input id="li-email" type="email" placeholder="ban@vidu.com" required>
+    <div class="auth-shell">
+      <div class="auth-card">
+        <div class="auth-side">
+          <a href="index.html" class="back-link">← Quay lại trang chủ</a>
+          <div>
+            <div class="leaf-deco l1"></div>
+            <div class="leaf-deco l2"></div>
+            <div class="quote-mark">“</div>
+            <p class="auth-quote">
+              Quản lý cả tủ sách của bạn chỉ với một lần đăng nhập.
+            </p>
+            <div class="auth-quote-by">— Mọt Sách</div>
           </div>
-          <div class="field">
-            <label for="li-pass">Mật khẩu</label>
-            <input id="li-pass" type="password" placeholder="Nhập mật khẩu" required>
+          <div
+            style="
+              font-family: var(--font-mono);
+              font-size: 12px;
+              color: var(--muted-2);
+              letter-spacing: 0.06em;
+            "
+          >
+            Đầu sách, số bản và tình trạng — đồng bộ tức thì
           </div>
-          <div class="row-between">
-            <label class="checkbox-line"><input type="checkbox"> Ghi nhớ đăng nhập</label>
-            <a href="#" class="link-muted">Quên mật khẩu?</a>
-          </div>
-          <button class="btn btn-gold btn-wide" type="submit">Đăng nhập</button>
-        </form>
-        <div class="divider">hoặc</div>
-        <div class="social-row">
-          <button class="social-btn">Google</button>
-          <button class="social-btn">Facebook</button>
         </div>
-        <div class="switch-line">Chưa có tài khoản? <a href="register.html" style="color:var(--burgundy); font-weight:700;">Đăng ký ngay</a></div>
+
+        <div class="auth-main">
+          <div class="tabs">
+            <a href="login.html" class="tab-btn active">Đăng nhập</a>
+            <a href="register.html" class="tab-btn">Đăng ký</a>
+            <div
+              class="tab-indicator"
+              style="width: 76px; transform: translateX(0px)"
+            ></div>
+          </div>
+
+          <div class="form-panel active">
+            <div class="auth-title">Chào bạn quay lại</div>
+            <div class="auth-sub">
+              Đăng nhập để tiếp tục quản lý tủ sách của bạn.
+            </div>
+            <form id="loginForm">
+              <div class="field">
+                <label for="li-email">Email</label>
+                <input
+                  id="li-email"
+                  type="email"
+                  placeholder="ban@vidu.com"
+                  required
+                />
+              </div>
+              <div class="field">
+                <label for="li-pass">Mật khẩu</label>
+                <input
+                  id="li-pass"
+                  type="password"
+                  placeholder="Nhập mật khẩu"
+                  required
+                />
+              </div>
+              <div class="row-between">
+                <label class="checkbox-line"
+                  ><input type="checkbox" id="li-remember" /> Ghi nhớ đăng
+                  nhập</label
+                >
+                <a href="#" class="link-muted">Quên mật khẩu?</a>
+              </div>
+              <div
+                id="li-error"
+                style="
+                  display: none;
+                  color: var(--burgundy);
+                  font-size: 13px;
+                  margin-bottom: 16px;
+                "
+              ></div>
+              <button
+                class="btn btn-gold btn-wide"
+                type="submit"
+              >
+                Đăng nhập
+              </button>
+            </form>
+            <div class="divider">hoặc</div>
+            <div class="social-row">
+              <button class="social-btn">Google</button>
+              <button class="social-btn">Facebook</button>
+            </div>
+            <div class="switch-line">
+              Chưa có tài khoản?
+              <a
+                href="register.html"
+                style="color: var(--burgundy); font-weight: 700"
+                >Đăng ký ngay</a
+              >
+            </div>
+            <div
+              style="
+                margin-top: 14px;
+                font-family: var(--font-mono);
+                font-size: 12px;
+                color: var(--muted-2);
+                text-align: center;
+              "
+            >
+              Tài khoản quản trị mặc định:
+              <strong>admin@motsach.vn</strong> /
+              <strong>admin123</strong>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-</body>
-</html>
+    <script>
+      // Lấy danh sách tài khoản đã đăng ký (lưu trong localStorage bởi trang register.html)
+      function getAccounts() {
+        try {
+          return JSON.parse(localStorage.getItem("msAccounts")) || [];
+        } catch (err) {
+          return [];
+        }
+      }
+
+      // Đảm bảo luôn tồn tại ít nhất 1 tài khoản quản trị (role: 'admin')
+      // để có thể đăng nhập và truy cập trang quản trị ngay từ đầu.
+      function seedDefaultAdmin() {
+        const accounts = getAccounts();
+        const hasAdmin = accounts.some((acc) => acc.role === "admin");
+        if (!hasAdmin) {
+          accounts.push({
+            name: "Quản trị viên",
+            email: "admin@motsach.vn",
+            password: "admin123",
+            role: "admin",
+          });
+          localStorage.setItem("msAccounts", JSON.stringify(accounts));
+        }
+      }
+      seedDefaultAdmin();
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const email = document.getElementById("li-email");
+          const pass = document.getElementById("li-pass");
+          const remember = document.getElementById("li-remember");
+          const errorBox = document.getElementById("li-error");
+
+          errorBox.style.display = "none";
+
+          // Kiểm tra các trường bắt buộc đã hợp lệ chưa
+          if (!email.checkValidity()) {
+            email.reportValidity();
+            return;
+          }
+          if (!pass.checkValidity()) {
+            pass.reportValidity();
+            return;
+          }
+
+          // Đối chiếu với danh sách tài khoản đã đăng ký trong localStorage
+          const accounts = getAccounts();
+          const matched = accounts.find(
+            (acc) =>
+              acc.email.toLowerCase() === email.value.trim().toLowerCase() &&
+              acc.password === pass.value
+          );
+
+          if (!matched) {
+            errorBox.textContent =
+              accounts.length === 0
+                ? "Bạn chưa có tài khoản nào. Vui lòng đăng ký trước."
+                : "Email hoặc mật khẩu không đúng.";
+            errorBox.style.display = "block";
+            return;
+          }
+
+          // Lưu phiên đăng nhập hiện tại để lần sau vào lại còn nhớ
+          localStorage.setItem(
+            "msCurrentUser",
+            JSON.stringify({
+              name: matched.name,
+              email: matched.email,
+              role: matched.role || "user",
+            })
+          );
+          localStorage.setItem("msRemember", remember.checked ? "1" : "0");
+
+          // Đủ điều kiện -> chuyển sang trang chủ
+          window.location.href = "index.html";
+        });
+
+      // Nếu đã có phiên đăng nhập được ghi nhớ, tự điền email để tiện đăng nhập lại
+      (function prefillRememberedEmail() {
+        const current = localStorage.getItem("msCurrentUser");
+        const remembered = localStorage.getItem("msRemember");
+        if (current && remembered === "1") {
+          try {
+            const user = JSON.parse(current);
+            document.getElementById("li-email").value = user.email || "";
+          } catch (err) {}
+        }
+      })();
+    </script>
+  </body>
+</html> 
