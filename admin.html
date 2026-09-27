@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tạo sách — Mọt Sách</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<nav class="nav scrolled" id="mainNav">
+  <a href="index.html" class="brand">
+    <svg class="mark" viewBox="0 0 30 30" fill="none">
+      <path d="M4 6c4-2 8-2 11 0v18c-3-2-7-2-11 0V6z" fill="#C9A24B"/>
+      <path d="M26 6c-4-2-8-2-11 0v18c3-2 7-2 11 0V6z" fill="#E4C879"/>
+    </svg>
+    Mọt Sách
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Trang chủ</a>
+    <a href="shop.html">Sách đang bán</a>
+  </div>
+  <div class="nav-actions">
+    <span
+      id="adminNameLabel"
+      style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-2);"
+    ></span>
+    <a href="index.html" class="btn btn-ghost">Xem trang chủ</a>
+    <a href="#" class="btn btn-gold" id="logoutBtn">Đăng xuất</a>
+  </div>
+</nav>
+
+<main class="admin-shell">
+  <div class="wrap">
+
+    <div class="admin-head">
+      <div>
+        <h1>Tạo sách</h1>
+        <p>Đăng bán, chỉnh sửa và gỡ sách khỏi cửa hàng Mọt Sách. Dữ liệu được lưu trên trình duyệt này.</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+        <span class="admin-count"><strong id="totalCount">0</strong> đầu sách</span>
+        <button class="btn btn-ghost" id="importToggleBtn" onclick="toggleImportPanel()">🔍 Nhập từ Gutendex</button>
+        <button class="btn btn-gold" id="addBookBtn" onclick="openForm('add')">+ Đăng bán sách mới</button>
+      </div>
+    </div>
+
+    <!-- ================= GUTENDEX IMPORT PANEL ================= -->
+    <div class="import-panel" id="importPanel">
+      <div class="form-title">Tìm sách</div>
+      <div style="font-family:var(--font-mono); font-size:12.5px; color:var(--muted-2); margin-bottom:18px;">
+        Kho sách công cộng miễn phí bản quyền — tìm theo tên sách hoặc tác giả, bấm "Thêm vào cửa hàng" để đăng bán ngay.
+      </div>
+      <div style="display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
+        <input id="gutendexQuery" type="text" placeholder="Vd: Pride and Prejudice, Jane Austen..."
+          style="flex:1; min-width:240px; padding:11px 12px; border:1.5px solid var(--parchment-3); border-radius:3px; font-family:inherit; font-size:14.5px; background:var(--parchment);">
+        <button type="button" class="btn btn-gold" id="gutendexSearchBtn">Tìm sách</button>
+      </div>
+      <div id="gutendexStatus" style="font-family:var(--font-mono); font-size:13px; color:var(--muted-2); margin-bottom:16px;"></div>
+      <div class="gutendex-results" id="gutendexResults"></div>
+    </div>
+
+    <!-- ================= FORM PANEL (add / edit) ================= -->
+    <div class="book-form-panel" id="bookFormPanel">
+      <div class="form-title" id="formTitle">Thêm sách mới</div>
+      <form id="bookForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="f-title">Tên sách</label>
+            <input id="f-title" type="text" placeholder="Nhập tên sách" required>
+          </div>
+          <div class="field">
+            <label for="f-author">Tác giả</label>
+            <input id="f-author" type="text" placeholder="Nhập tên tác giả" required>
+          </div>
+          <div class="field">
+            <label for="f-genre">Thể loại</label>
+            <select id="f-genre">
+              <option>Tiểu thuyết</option>
+              <option>Trinh thám</option>
+              <option>Ngôn tình</option>
+              <option>Kỹ năng sống</option>
+              <option>Lịch sử</option>
+              <option>Khoa học viễn tưởng</option>
+              <option>Tản văn</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-copies">Số bản</label>
+            <input id="f-copies" type="number" min="0" value="1" required>
+          </div>
+          <div class="field">
+            <label for="f-price">Giá bán (đ)</label>
+            <input id="f-price" type="number" min="0" step="1000" value="0" required>
+          </div>
+          <div class="field">
+            <label for="f-status">Trạng thái</label>
+            <select id="f-status">
+              <option value="available">Còn sách</option>
+              <option value="out">Hết sách</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-rating">Đánh giá</label>
+            <select id="f-rating">
+              <option value="5">5 sao</option>
+              <option value="4">4 sao</option>
+              <option value="3">3 sao</option>
+              <option value="2">2 sao</option>
+              <option value="1">1 sao</option>
+            </select>
+          </div>
+          <div class="field field-full">
+            <label for="f-description">Nội dung sách (tuỳ chọn)</label>
+            <textarea id="f-description" rows="3" placeholder="Giới thiệu ngắn về nội dung cuốn sách..."></textarea>
+          </div>
+          <div class="field field-full">
+            <label for="f-cover-image">Ảnh bìa riêng (tuỳ chọn)</label>
+            <input id="f-cover-image" type="file" accept="image/*" onchange="handleCoverImageSelect(event)">
+            <div id="coverImagePreviewWrap" style="display:none; align-items:center; gap:12px; margin-top:10px;">
+              <img id="coverImagePreview" src="" alt="Xem trước ảnh bìa" style="width:56px; height:78px; object-fit:cover; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,0.25);">
+              <button type="button" class="btn btn-cancel" onclick="clearCoverImage()">Xoá ảnh</button>
+            </div>
+            <div style="font-family:var(--font-mono); font-size:12px; color:var(--muted-2); margin-top:8px;">
+              Nếu không chọn ảnh, sách sẽ dùng màu bìa bên dưới.
+            </div>
+          </div>
+          <div class="field field-full">
+            <label>Màu bìa (dùng khi không có ảnh)</label>
+            <div class="swatch-picker" id="swatchPicker">
+              <button type="button" class="swatch-btn cv1 active" data-cover="cv1" onclick="selectSwatch('cv1')"></button>
+              <button type="button" class="swatch-btn cv2" data-cover="cv2" onclick="selectSwatch('cv2')"></button>
+              <button type="button" class="swatch-btn cv3" data-cover="cv3" onclick="selectSwatch('cv3')"></button>
+              <button type="button" class="swatch-btn cv4" data-cover="cv4" onclick="selectSwatch('cv4')"></button>
+              <button type="button" class="swatch-btn cv5" data-cover="cv5" onclick="selectSwatch('cv5')"></button>
+              <button type="button" class="swatch-btn cv6" data-cover="cv6" onclick="selectSwatch('cv6')"></button>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-gold" id="saveBtnLabel">Lưu sách</button>
+          <button type="button" class="btn btn-cancel" onclick="closeForm()">Hủy</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ================= TABLE ================= -->
+    <div class="table-wrap" id="tableWrap">
+      <table class="book-table">
+        <thead>
+          <tr>
+            <th>Bìa</th>
+            <th>Tên sách</th>
+            <th>Tác giả</th>
+            <th>Thể loại</th>
+            <th>Số bản</th>
+            <th>Giá bán</th>
+            <th>Trạng thái</th>
+            <th>Đánh giá</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="bookTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="empty-icon">📚</div>
+      <h3>Chưa có sách nào</h3>
+      <p>Nhấn “Đăng bán sách mới” để bắt đầu bán sách.</p>
+    </div>
+
+    <!-- ================= LỊCH SỬ MUA HÀNG ================= -->
+    <div class="admin-head" style="margin-top:56px;">
+      <div>
+        <h1 style="font-size:26px;">Lịch sử mua hàng</h1>
+        <p>Theo dõi thời gian mua, khách hàng và sách đã mua của toàn bộ hệ thống.</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+        <span class="admin-count"><strong id="totalPurchases">0</strong> lượt mua</span>
+      </div>
+    </div>
+
+    <div class="table-wrap" id="purchaseTableWrap">
+      <table class="book-table">
+        <thead>
+          <tr>
+            <th>Thời gian mua</th>
+            <th>Khách hàng</th>
+            <th>Email</th>
+            <th>Sách đã mua</th>
+            <th>Tác giả</th>
+            <th>Giá</th>
+          </tr>
+        </thead>
+        <tbody id="purchaseTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="empty-state" id="purchaseEmptyState" style="display:none;">
+      <div class="empty-icon">🧾</div>
+      <h3>Chưa có giao dịch nào</h3>
+      <p>Lịch sử mua hàng của khách sẽ hiển thị tại đây khi có đơn mua đầu tiên.</p>
+    </div>
+
+  </div>
+</main>
+
+<script src="js/books.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
