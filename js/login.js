@@ -15,7 +15,9 @@
       // Lấy danh sách tài khoản đã đăng ký (lưu trong localStorage bởi trang register.html)
       function getAccounts() {
         try {
-          return JSON.parse(localStorage.getItem("msAccounts")) || [];
+          const raw = localStorage.getItem("msAccounts");
+          const parsed = raw ? JSON.parse(raw) : [];
+          return Array.isArray(parsed) ? parsed : [];
         } catch (err) {
           return [];
         }
@@ -25,7 +27,10 @@
       // để có thể đăng nhập và truy cập trang quản trị ngay từ đầu.
       function seedDefaultAdmin() {
         const accounts = getAccounts();
-        const hasAdmin = accounts.some((acc) => acc.role === "admin");
+        const hasAdmin = accounts.some(
+          (acc) => String(acc?.role || "").toLowerCase() === "admin"
+        );
+
         if (!hasAdmin) {
           accounts.push({
             name: "Quản trị viên",
@@ -38,9 +43,9 @@
       }
       seedDefaultAdmin();
 
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
+      const loginForm = document.getElementById("loginForm");
+      if (loginForm) {
+        loginForm.addEventListener("submit", function (e) {
           e.preventDefault();
 
           const email = document.getElementById("li-email");
@@ -48,6 +53,7 @@
           const remember = document.getElementById("li-remember");
           const errorBox = document.getElementById("li-error");
 
+          if (!email || !pass || !errorBox) return;
           errorBox.style.display = "none";
 
           // Kiểm tra các trường bắt buộc đã hợp lệ chưa
@@ -62,10 +68,12 @@
 
           // Đối chiếu với danh sách tài khoản đã đăng ký trong localStorage
           const accounts = getAccounts();
+          const emailValue = (email.value || "").trim().toLowerCase();
+          const passValue = pass.value;
           const matched = accounts.find(
             (acc) =>
-              acc.email.toLowerCase() === email.value.trim().toLowerCase() &&
-              acc.password === pass.value
+              String(acc?.email || "").trim().toLowerCase() === emailValue &&
+              String(acc?.password || "") === passValue
           );
 
           if (!matched) {
@@ -86,11 +94,12 @@
               role: matched.role || "user",
             })
           );
-          localStorage.setItem("msRemember", remember.checked ? "1" : "0");
+          localStorage.setItem("msRemember", remember && remember.checked ? "1" : "0");
 
           // Đủ điều kiện -> chuyển sang trang chủ
           window.location.href = "index.html";
         });
+      }
 
       // Nếu đã có phiên đăng nhập được ghi nhớ, tự điền email để tiện đăng nhập lại
       (function prefillRememberedEmail() {

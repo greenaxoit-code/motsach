@@ -4,7 +4,8 @@ window.addEventListener("scroll", () => {
     .classList.toggle("scrolled", window.scrollY > 40);
 });
 
-// Chỉ tài khoản admin mới thấy liên kết vào trang quản trị trên nav.
+// Chỉ tài khoản admin mới thấy liên kết vào trang quản trị trên nav;
+// chỉ tài khoản đã đăng nhập mới thấy liên kết "Sách đã mua".
 function applyNavRoleVisibility() {
   const admin = isAdmin();
   const adminLink = document.getElementById("navAdminLink");
@@ -98,71 +99,7 @@ function initWeather() {
   );
 }
 
-// ===== Bộ lọc sách theo tên / tác giả và thể loại =====
-let allBooksCache = [];
-
-// Dựng danh sách thể loại từ chính dữ liệu sách hiện có để dropdown luôn khớp
-// với dữ liệu nhập tự do từ Google Books.
-function populateGenreOptions(books) {
-  const select = document.getElementById("filterGenre");
-  const currentValue = select.value;
-  const genres = Array.from(new Set(books.map((b) => b.genre).filter(Boolean))).sort(
-    (a, b) => a.localeCompare(b, "vi"),
-  );
-
-  select.innerHTML =
-    '<option value="">Tất cả thể loại</option>' +
-    genres.map((g) => `<option value="${escapeHtml(g)}">${escapeHtml(g)}</option>`).join("");
-
-  if (genres.includes(currentValue)) select.value = currentValue;
-}
-
-function applyFilters() {
-  const titleQuery = document.getElementById("filterTitle").value.trim().toLowerCase();
-  const genreQuery = document.getElementById("filterGenre").value;
-
-  const filtered = allBooksCache.filter((b) => {
-    const matchesTitle =
-      !titleQuery ||
-      (b.title || "").toLowerCase().includes(titleQuery) ||
-      (b.author || "").toLowerCase().includes(titleQuery);
-    const matchesGenre = !genreQuery || b.genre === genreQuery;
-    return matchesTitle && matchesGenre;
-  });
-
-  renderShopGrid(filtered);
-}
-
-function renderShopGrid(books) {
-  const grid = document.getElementById("shopGrid");
-  const countLabel = document.getElementById("filterResultCount");
-
-  countLabel.textContent = `${books.length} / ${allBooksCache.length} đầu sách`;
-
-  if (books.length === 0) {
-    grid.innerHTML =
-      '<p style="color:var(--muted); grid-column:1/-1;">Không tìm thấy sách nào khớp với bộ lọc hiện tại. Hãy thử từ khoá khác.</p>';
-    return;
-  }
-  grid.innerHTML = books.map(renderBookCardHtml).join("");
-}
-
-function initShopPage() {
-  allBooksCache = loadBooks();
-  populateGenreOptions(allBooksCache);
-  renderShopGrid(allBooksCache);
-
-  document.getElementById("filterTitle").addEventListener("input", applyFilters);
-  document.getElementById("filterGenre").addEventListener("change", applyFilters);
-  document.getElementById("resetFilterBtn").addEventListener("click", () => {
-    document.getElementById("filterTitle").value = "";
-    document.getElementById("filterGenre").value = "";
-    applyFilters();
-  });
-}
-
 window.addEventListener("load", () => {
-  initShopPage();
   applyNavRoleVisibility();
   initWeather();
 });

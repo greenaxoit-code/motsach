@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tạo sách — Mọt Sách</title>
+<title>Quản trị bán sách — Mọt Sách</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/admin.css">
@@ -42,24 +42,27 @@
       </div>
       <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
         <span class="admin-count"><strong id="totalCount">0</strong> đầu sách</span>
-        <button class="btn btn-ghost" id="importToggleBtn" onclick="toggleImportPanel()">🔍 Nhập từ Gutendex</button>
+        <button class="btn btn-gold" id="importToggleBtn" onclick="toggleImportPanel()">Tìm sách</button>
         <button class="btn btn-gold" id="addBookBtn" onclick="openForm('add')">+ Đăng bán sách mới</button>
       </div>
     </div>
 
-    <!-- ================= GUTENDEX IMPORT PANEL ================= -->
+    <!-- ================= GOOGLE BOOKS IMPORT PANEL ================= -->
     <div class="import-panel" id="importPanel">
       <div class="form-title">Tìm sách</div>
       <div style="font-family:var(--font-mono); font-size:12.5px; color:var(--muted-2); margin-bottom:18px;">
-        Kho sách công cộng miễn phí bản quyền — tìm theo tên sách hoặc tác giả, bấm "Thêm vào cửa hàng" để đăng bán ngay.
+        Tìm theo tên sách hoặc tác giả trong Google Books. Hãy xác minh quyền sử dụng trước khi đăng bán.
       </div>
-      <div style="display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
-        <input id="gutendexQuery" type="text" placeholder="Vd: Pride and Prejudice, Jane Austen..."
-          style="flex:1; min-width:240px; padding:11px 12px; border:1.5px solid var(--parchment-3); border-radius:3px; font-family:inherit; font-size:14.5px; background:var(--parchment);">
-        <button type="button" class="btn btn-gold" id="gutendexSearchBtn">Tìm sách</button>
+      <div style="display:flex; gap:12px; margin-bottom:18px; flex-wrap:wrap; align-items:stretch;">
+        <input id="googleBooksQuery" type="text" placeholder="Vd: Pride and Prejudice, Jane Austen..."
+          style="flex:1; min-width:240px; padding:13px 15px; border:1.5px solid var(--parchment-3); border-radius:5px; font-family:inherit; font-size:15px; background:#fff; box-shadow:0 2px 8px rgba(42,35,24,0.06);">
+        <button type="button" class="btn btn-gold" id="googleBooksSearchBtn" style="min-width:140px; justify-content:center; font-size:15px; font-weight:600; box-shadow:0 3px 10px rgba(166,126,43,0.2);">⌕ &nbsp; Tìm sách</button>
       </div>
-      <div id="gutendexStatus" style="font-family:var(--font-mono); font-size:13px; color:var(--muted-2); margin-bottom:16px;"></div>
-      <div class="gutendex-results" id="gutendexResults"></div>
+      <div style="font-family:var(--font-mono); font-size:11px; color:var(--muted-2); margin:-8px 0 14px;">
+        Tìm sách bằng Google Books API.
+      </div>
+      <div id="googleBooksStatus" style="font-family:var(--font-mono); font-size:13px; color:var(--muted-2); margin-bottom:16px;"></div>
+      <div class="google-books-results" id="googleBooksResults"></div>
     </div>
 
     <!-- ================= FORM PANEL (add / edit) ================= -->
@@ -180,6 +183,7 @@
       </div>
       <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
         <span class="admin-count"><strong id="totalPurchases">0</strong> lượt mua</span>
+        <button class="btn btn-cancel" id="clearHistoryBtn" onclick="clearPurchaseHistory()">Xoá tất cả</button>
       </div>
     </div>
 
@@ -193,6 +197,7 @@
             <th>Sách đã mua</th>
             <th>Tác giả</th>
             <th>Giá</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody id="purchaseTableBody"></tbody>

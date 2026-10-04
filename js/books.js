@@ -144,7 +144,22 @@ function loadPurchases(){
   try{
     const raw = localStorage.getItem(PURCHASES_KEY);
     const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed : [];
+    let list = Array.isArray(parsed) ? parsed : [];
+
+    // Di trú dữ liệu cũ: các giao dịch được ghi trước khi có trường `id`
+    // (phục vụ xoá từng dòng trong lịch sử mua hàng) sẽ được gán id ngay
+    // lần đọc đầu tiên, rồi lưu lại để lần sau không phải gán lại.
+    let migrated = false;
+    list = list.map(p => {
+      if(p && !p.id){
+        migrated = true;
+        return { ...p, id: 'p' + Date.now() + Math.random().toString(36).slice(2, 8) };
+      }
+      return p;
+    });
+    if(migrated) savePurchases(list);
+
+    return list;
   }catch(e){
     return [];
   }
@@ -187,9 +202,29 @@ function purchaseBook(bookId){
   });
 
   const purchases = loadPurchases();
-  purchases.push({ email: user.email, bookId, purchasedAt: new Date().toISOString() });
+  purchases.push({
+    id: 'p' + Date.now() + Math.random().toString(36).slice(2, 8),
+    email: user.email,
+    bookId,
+    purchasedAt: new Date().toISOString()
+  });
   savePurchases(purchases);
   return { success:true };
+}
+
+// Xoá một dòng lịch sử mua hàng theo id (dùng ở trang quản trị).
+// Lưu ý: vì hasPurchased()/getMyPurchasedBooks() đọc cùng nguồn dữ liệu này,
+// xoá một giao dịch cũng đồng nghĩa khách hàng đó sẽ mất quyền xem mô tả
+// cuốn sách tương ứng (phải mua lại) — hệ thống KHÔNG tự hoàn trả tồn kho.
+function deletePurchase(id){
+  const purchases = loadPurchases().filter(p => p.id !== id);
+  savePurchases(purchases);
+  return purchases;
+}
+
+// Xoá toàn bộ lịch sử mua hàng của mọi khách hàng.
+function clearAllPurchaseHistory(){
+  savePurchases([]);
 }
 
 // Danh sách sách mà tài khoản hiện tại đã mua (mới nhất lên trước).
@@ -231,6 +266,7 @@ function getAllPurchaseHistory(){
       const book = books.find(b => b.id === p.bookId);
       const account = accounts.find(a => a.email === p.email);
       return {
+        id: p.id,
         purchasedAt: p.purchasedAt,
         buyerName: account ? account.name : p.email,
         buyerEmail: p.email,

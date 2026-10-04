@@ -104,118 +104,136 @@
     editingId = null;
   }
 
-  /* ============================================================
-     Tìm & nhập sách từ Gutendex (API công khai của Project Gutenberg)
-     https://gutendex.com — trả về sách, tác giả, chủ đề, ảnh bìa.
-     ============================================================ */
-
-  let lastGutendexResults = [];
+  const GOOGLE_BOOKS_API_KEY = 'AIzaSyDKJzo7Bxrmwr81JYDqbWi03ghz0vnIUMc';
+  let lastGoogleBooksResults = [];
 
   function toggleImportPanel(){
     document.getElementById('importPanel').classList.toggle('open');
   }
 
-  function formatGutendexAuthor(book){
-    if(!book.authors || book.authors.length === 0) return 'Không rõ tác giả';
-    return book.authors.map(a => {
-      if(a.name && a.name.includes(',')){
-        const parts = a.name.split(',').map(s => s.trim());
-        return parts[1] ? `${parts[1]} ${parts[0]}` : parts[0];
-      }
-      return a.name || 'Không rõ tác giả';
-    }).join(', ');
+  function formatGoogleBooksAuthors(volumeInfo){
+    return volumeInfo.authors && volumeInfo.authors.length
+      ? volumeInfo.authors.join(', ')
+      : 'Không rõ tác giả';
   }
 
-  function gutendexCoverUrl(book){
-    return (book.formats && (book.formats['image/jpeg'] || book.formats['image/png'])) || null;
+  function googleBooksCoverUrl(volumeInfo){
+    const imageUrl = volumeInfo.imageLinks &&
+      (volumeInfo.imageLinks.thumbnail || volumeInfo.imageLinks.smallThumbnail);
+    if(!imageUrl) return null;
+
+    try{
+      const secureUrl = imageUrl.replace(/^http:/i, 'https:');
+      return new URL(secureUrl).protocol === 'https:' ? secureUrl : null;
+    }catch(err){
+      return null;
+    }
   }
 
-  function gutendexCardHtml(book){
-    const cover = gutendexCoverUrl(book);
-    const author = formatGutendexAuthor(book);
-    const subject = (book.subjects && book.subjects[0]) || 'Chưa phân loại';
+  function googleBooksCardHtml(book, index){
+    const volumeInfo = book.volumeInfo;
+    const cover = googleBooksCoverUrl(volumeInfo);
+    const author = formatGoogleBooksAuthors(volumeInfo);
+    const subject = (volumeInfo.categories && volumeInfo.categories[0]) || 'Chưa phân loại';
     return `
-      <div class="gutendex-card">
+      <div class="google-books-card">
         ${cover
-          ? `<img src="${cover}" alt="">`
+          ? `<img src="${escapeHtml(cover)}" alt="">`
           : `<div class="cover cv1" style="height:180px; border-radius:4px;"></div>`}
-        <h4>${escapeHtml(book.title)}</h4>
+        <h4>${escapeHtml(volumeInfo.title || 'Không rõ tiêu đề')}</h4>
         <div class="meta">${escapeHtml(author)}</div>
         <div class="meta">${escapeHtml(subject)}</div>
         <label style="font-family:var(--font-mono); font-size:11px; color:var(--muted-2);">Giá bán (đ)</label>
-        <input type="number" min="0" step="1000" value="25000" data-price-for="${book.id}">
-        <button type="button" class="btn btn-gold" style="padding:9px 14px; font-size:13px;" onclick="addFromGutendex(${book.id})">+ Thêm vào cửa hàng</button>
+        <input type="number" min="0" step="1000" value="25000" data-price-for="${index}">
+        <button type="button" class="btn btn-gold" style="padding:9px 14px; font-size:13px;" onclick="addFromGoogleBooks(${index})">+ Thêm vào cửa hàng</button>
       </div>
     `;
   }
 
-  async function searchGutendex(){
-    const query = document.getElementById('gutendexQuery').value.trim();
-    const status = document.getElementById('gutendexStatus');
-    const results = document.getElementById('gutendexResults');
+  async function searchGoogleBooks(){
+    const query = document.getElementById('googleBooksQuery').value.trim();
+    const status = document.getElementById('googleBooksStatus');
+    const results = document.getElementById('googleBooksResults');
 
     if(!query){
       status.textContent = 'Vui lòng nhập từ khoá tìm kiếm.';
       return;
     }
 
-    status.textContent = 'Đang tìm kiếm... (máy chủ Gutendex miễn phí có thể mất vài giây)';
+    status.textContent = 'Đang tìm kiếm...';
     results.innerHTML = '';
 
-    // Gutendex là dịch vụ miễn phí, thỉnh thoảng phản hồi chậm/time-out.
-    // Đặt giới hạn 15s để không bị treo vô thời hạn, và báo lỗi rõ ràng hơn.
+    const params = new URLSearchParams({
+      q: query,
+      maxResults: '20',
+      printType: 'books',
+      key: GOOGLE_BOOKS_API_KEY
+    });
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 45000);
 
     try{
-      const res = await fetch(
-        'https://gutendex.com/books/?search=' + encodeURIComponent(query),
-        { signal: controller.signal }
-      );
-      clearTimeout(timeoutId);
-
-      if(!res.ok){
-        status.innerHTML = `Gutendex trả về lỗi (mã ${res.status}). <button type="button" class="icon-btn" onclick="searchGutendex()">Thử lại</button>`;
-        return;
-      }
+      const res = await fetch('https://www.googleapis.com/books/v1/volumes?' + params.toString(), {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit',
+        signal: controller.signal,
+        headers: { Accept: 'application/json' }
+      });
+      if(!res.ok) throw new Error(`Google Books API trả về HTTP ${res.status}.`);
 
       const data = await res.json();
-
-      if(!data.results || data.results.length === 0){
+      const books = data && Array.isArray(data.items)
+        ? data.items.filter(book => book && book.volumeInfo)
+        : [];
+      if(books.length === 0){
         status.textContent = 'Không tìm thấy sách nào phù hợp.';
-        lastGutendexResults = [];
+        lastGoogleBooksResults = [];
         return;
       }
 
-      lastGutendexResults = data.results;
-      status.textContent = `Tìm thấy ${data.count} kết quả — hiển thị ${data.results.length} sách đầu tiên.`;
-      results.innerHTML = data.results.map(gutendexCardHtml).join('');
+      lastGoogleBooksResults = books;
+      status.textContent = `Tìm thấy ${data.totalItems ?? books.length} kết quả — hiển thị ${books.length} sách đầu tiên.`;
+      results.innerHTML = books.map(googleBooksCardHtml).join('');
     }catch(err){
+      console.error('Lỗi khi gọi Google Books API:', err);
+      const isTimeout = err && err.name === 'AbortError';
+      const isApiError = err instanceof Error && err.message.startsWith('Google Books API trả về');
+      status.textContent = isTimeout
+        ? 'Yêu cầu tìm kiếm đã quá thời gian chờ. Vui lòng thử lại sau. '
+        : isApiError
+          ? `${err.message} Hãy kiểm tra API key và giới hạn API key. `
+          : 'Không thể kết nối tới Google Books. Hãy kiểm tra kết nối mạng. ';
+      const retryButton = document.createElement('button');
+      retryButton.type = 'button';
+      retryButton.className = 'icon-btn';
+      retryButton.textContent = 'Thử lại';
+      retryButton.addEventListener('click', searchGoogleBooks);
+      status.appendChild(retryButton);
+    }finally{
       clearTimeout(timeoutId);
-      console.error('Lỗi khi gọi Gutendex API:', err);
-      const isTimeout = err.name === 'AbortError';
-      status.innerHTML = isTimeout
-        ? `Máy chủ Gutendex phản hồi quá chậm (quá 15 giây). <button type="button" class="icon-btn" onclick="searchGutendex()">Thử lại</button>`
-        : `Không thể kết nối tới Gutendex — có thể do mạng hoặc máy chủ đang bận. <button type="button" class="icon-btn" onclick="searchGutendex()">Thử lại</button>`;
     }
   }
 
-  function addFromGutendex(gutendexId){
-    const book = lastGutendexResults.find(b => b.id === gutendexId);
+  function addFromGoogleBooks(index){
+    const book = lastGoogleBooksResults[index];
     if(!book) return;
 
-    const priceInput = document.querySelector(`input[data-price-for="${gutendexId}"]`);
+    const volumeInfo = book.volumeInfo;
+    const priceInput = document.querySelector(`input[data-price-for="${index}"]`);
     const price = priceInput ? (parseInt(priceInput.value, 10) || 0) : 25000;
-    const cover = gutendexCoverUrl(book);
-    const author = formatGutendexAuthor(book);
-    const subject = (book.subjects && book.subjects[0]) || 'Chưa phân loại';
-    const summary = (book.summaries && book.summaries[0]) || '';
+    const cover = googleBooksCoverUrl(volumeInfo);
+    const author = formatGoogleBooksAuthors(volumeInfo);
+    const subject = (volumeInfo.categories && volumeInfo.categories[0]) || 'Chưa phân loại';
+    const summary = volumeInfo.description
+      ? new DOMParser().parseFromString(volumeInfo.description, 'text/html').body.textContent.trim()
+      : '';
     const description = summary
       ? summary
-      : `Nhập từ Gutendex (Project Gutenberg). Chủ đề: ${subject}.`;
+      : `Nhập từ Google Books. Chủ đề: ${subject}.`;
 
     addBook({
-      title: book.title,
+      title: volumeInfo.title || 'Không rõ tiêu đề',
       author: author,
       genre: subject.length > 40 ? subject.slice(0, 40) + '…' : subject,
       copies: 5,
@@ -227,7 +245,7 @@
       bannerImage: cover
     });
 
-    alert(`Đã thêm "${book.title}" vào cửa hàng!`);
+    alert(`Đã thêm "${volumeInfo.title || 'Không rõ tiêu đề'}" vào cửa hàng!`);
     renderTable();
   }
 
@@ -336,8 +354,36 @@
         <td>${escapeHtml(h.bookTitle)}</td>
         <td>${escapeHtml(h.bookAuthor)}</td>
         <td>${h.price != null ? formatPrice(h.price) : '—'}</td>
+        <td class="actions-cell">
+          <button class="icon-btn danger" onclick="removePurchaseRecord('${h.id}')">Xóa</button>
+        </td>
       </tr>
     `).join('');
+  }
+
+  // Xoá một dòng lịch sử mua hàng. Vì đây cũng là nguồn dữ liệu quyết định
+  // khách hàng đã mua sách hay chưa, xoá xong thì khách sẽ mất quyền xem
+  // mô tả cuốn sách đó (phải mua lại) — số bản tồn kho KHÔNG được hoàn trả.
+  function removePurchaseRecord(id){
+    const confirmed = confirm(
+      'Xoá dòng lịch sử này? Khách hàng sẽ không còn được tính là đã mua cuốn sách ' +
+      'tương ứng (cần mua lại để xem mô tả). Số bản tồn kho sẽ không được hoàn lại.'
+    );
+    if(!confirmed) return;
+    deletePurchase(id);
+    renderPurchaseHistory();
+  }
+
+  // Xoá toàn bộ lịch sử mua hàng của mọi khách hàng.
+  function clearPurchaseHistory(){
+    if(getAllPurchaseHistory().length === 0) return;
+    const confirmed = confirm(
+      'Xoá TOÀN BỘ lịch sử mua hàng của mọi khách hàng? Hành động này không thể hoàn tác, ' +
+      'và mọi khách hàng sẽ mất quyền xem mô tả các sách đã mua trước đó.'
+    );
+    if(!confirmed) return;
+    clearAllPurchaseHistory();
+    renderPurchaseHistory();
   }
 
   window.addEventListener('load', function(){
@@ -345,10 +391,10 @@
     renderPurchaseHistory();
   });
 
-  document.getElementById('gutendexSearchBtn').addEventListener('click', searchGutendex);
-  document.getElementById('gutendexQuery').addEventListener('keydown', function(e){
+  document.getElementById('googleBooksSearchBtn').addEventListener('click', searchGoogleBooks);
+  document.getElementById('googleBooksQuery').addEventListener('keydown', function(e){
     if(e.key === 'Enter'){
       e.preventDefault();
-      searchGutendex();
+      searchGoogleBooks();
     }
   });
