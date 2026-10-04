@@ -9,11 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-<<<<<<< HEAD
     <link rel="stylesheet" href="css/login.css" />
-=======
-    <link rel="stylesheet" href="css/styles.css" />
->>>>>>> 6ecd61de21aac48e90505816e18d76a34daf9e79
   </head>
   <body>
     <nav class="nav scrolled" id="mainNav">
@@ -24,14 +20,6 @@
         </svg>
         Mọt Sách
       </a>
-<<<<<<< HEAD
-=======
-      <div class="nav-links">
-        <a href="index.html">Trang chủ</a>
-        <a href="index.html#shelf">Thể loại</a>
-        <a href="index.html#books">Sách trong hệ thống</a>
-        <a href="admin.html">Quản trị</a>
->>>>>>> 6ecd61de21aac48e90505816e18d76a34daf9e79
       </div>
       <div class="nav-actions">
         <a href="register.html" class="btn btn-ghost">Chưa có tài khoản?</a>
@@ -48,11 +36,7 @@
             <div class="leaf-deco l2"></div>
             <div class="quote-mark">“</div>
             <p class="auth-quote">
-<<<<<<< HEAD
               Mua bán sách dễ dàng chỉ với một lần đăng nhập.
-=======
-              Quản lý cả tủ sách của bạn chỉ với một lần đăng nhập.
->>>>>>> 6ecd61de21aac48e90505816e18d76a34daf9e79
             </p>
             <div class="auth-quote-by">— Mọt Sách</div>
           </div>
@@ -94,11 +78,7 @@
                 />
               </div>
               <div class="field">
-<<<<<<< HEAD
                 <label for= "li-pass">Mật khẩu</label>
-=======
-                <label for="li-pass">Mật khẩu</label>
->>>>>>> 6ecd61de21aac48e90505816e18d76a34daf9e79
                 <input
                   id="li-pass"
                   type="password"
@@ -106,16 +86,6 @@
                   required
                 />
               </div>
-<<<<<<< HEAD
-=======
-              <div class="row-between">
-                <label class="checkbox-line"
-                  ><input type="checkbox" id="li-remember" /> Ghi nhớ đăng
-                  nhập</label
-                >
-                <a href="#" class="link-muted">Quên mật khẩu?</a>
-              </div>
->>>>>>> 6ecd61de21aac48e90505816e18d76a34daf9e79
               <div
                 id="li-error"
                 style="
@@ -125,25 +95,10 @@
                   margin-bottom: 16px;
                 "
               ></div>
-<<<<<<< HEAD
               <button class="btn btn-gold btn-wide" type="submit">
                 Đăng nhập
               </button>
             </form>
-=======
-              <button
-                class="btn btn-gold btn-wide"
-                type="submit"
-              >
-                Đăng nhập
-              </button>
-            </form>
-            <div class="divider">hoặc</div>
-            <div class="social-row">
-              <button class="social-btn">Google</button>
-              <button class="social-btn">Facebook</button>
-            </div>
->>>>>>> 6ecd61de21aac48e90505816e18d76a34daf9e79
             <div class="switch-line">
               Chưa có tài khoản?
               <a
@@ -160,118 +115,12 @@
                 color: var(--muted-2);
                 text-align: center;
               "
-<<<<<<< HEAD
             ></div>
-=======
-            >
-              Tài khoản quản trị mặc định:
-              <strong>admin@motsach.vn</strong> /
-              <strong>admin123</strong>
-            </div>
->>>>>>> 6ecd61de21aac48e90505816e18d76a34daf9e79
           </div>
         </div>
       </div>
     </div>
 
-<<<<<<< HEAD
     <script src="js/login.js"></script>
   </body>
 </html>
-=======
-    <script>
-      // Lấy danh sách tài khoản đã đăng ký (lưu trong localStorage bởi trang register.html)
-      function getAccounts() {
-        try {
-          return JSON.parse(localStorage.getItem("msAccounts")) || [];
-        } catch (err) {
-          return [];
-        }
-      }
-
-      // Đảm bảo luôn tồn tại ít nhất 1 tài khoản quản trị (role: 'admin')
-      // để có thể đăng nhập và truy cập trang quản trị ngay từ đầu.
-      function seedDefaultAdmin() {
-        const accounts = getAccounts();
-        const hasAdmin = accounts.some((acc) => acc.role === "admin");
-        if (!hasAdmin) {
-          accounts.push({
-            name: "Quản trị viên",
-            email: "admin@motsach.vn",
-            password: "admin123",
-            role: "admin",
-          });
-          localStorage.setItem("msAccounts", JSON.stringify(accounts));
-        }
-      }
-      seedDefaultAdmin();
-
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-
-          const email = document.getElementById("li-email");
-          const pass = document.getElementById("li-pass");
-          const remember = document.getElementById("li-remember");
-          const errorBox = document.getElementById("li-error");
-
-          errorBox.style.display = "none";
-
-          // Kiểm tra các trường bắt buộc đã hợp lệ chưa
-          if (!email.checkValidity()) {
-            email.reportValidity();
-            return;
-          }
-          if (!pass.checkValidity()) {
-            pass.reportValidity();
-            return;
-          }
-
-          // Đối chiếu với danh sách tài khoản đã đăng ký trong localStorage
-          const accounts = getAccounts();
-          const matched = accounts.find(
-            (acc) =>
-              acc.email.toLowerCase() === email.value.trim().toLowerCase() &&
-              acc.password === pass.value
-          );
-
-          if (!matched) {
-            errorBox.textContent =
-              accounts.length === 0
-                ? "Bạn chưa có tài khoản nào. Vui lòng đăng ký trước."
-                : "Email hoặc mật khẩu không đúng.";
-            errorBox.style.display = "block";
-            return;
-          }
-
-          // Lưu phiên đăng nhập hiện tại để lần sau vào lại còn nhớ
-          localStorage.setItem(
-            "msCurrentUser",
-            JSON.stringify({
-              name: matched.name,
-              email: matched.email,
-              role: matched.role || "user",
-            })
-          );
-          localStorage.setItem("msRemember", remember.checked ? "1" : "0");
-
-          // Đủ điều kiện -> chuyển sang trang chủ
-          window.location.href = "index.html";
-        });
-
-      // Nếu đã có phiên đăng nhập được ghi nhớ, tự điền email để tiện đăng nhập lại
-      (function prefillRememberedEmail() {
-        const current = localStorage.getItem("msCurrentUser");
-        const remembered = localStorage.getItem("msRemember");
-        if (current && remembered === "1") {
-          try {
-            const user = JSON.parse(current);
-            document.getElementById("li-email").value = user.email || "";
-          } catch (err) {}
-        }
-      })();
-    </script>
-  </body>
-</html> 
->>>>>>> 6ecd61de21aac48e90505816e18d76a34daf9e79
